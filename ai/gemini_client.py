@@ -1,5 +1,7 @@
 import os
 import json
+import re
+import time
 from dotenv import load_dotenv
 from google import genai
 
@@ -21,25 +23,50 @@ class GeminiClient:
 
         try:
 
-            response = self.client.models.generate_content(
-                model="gemini-2.0-flash",
-                contents=prompt
-            )
+            response = None
 
-            return json.loads(response.text)
+            for attempt in range(3):
+                try:
+                    response = self.client.models.generate_content(
+                        model="gemini-2.5-flash",
+                        contents=prompt
+                    )
+                    break
+
+                except Exception as e:
+                    if "503" in str(e):
+                        time.sleep(3)
+                        continue
+                    raise
+
+            if response is None:
+                raise Exception("Gemini unavailable after 3 retries")
+
+            text = response.text.strip()
+
+            text = re.sub(r"^```json\s*", "", text)
+            text = re.sub(r"\s*```$", "", text)
+            print("========== GEMINI RESPONSE ==========")
+            print(text)
+            print("=====================================")
+
+            return json.loads(text)
 
         except Exception as e:
 
+            error_msg = str(e)
+
+            print("=" * 50)
+            print("GEMINI ERROR:")
+            print(error_msg)
+            print("=" * 50)
+
             return {
                 "company_name": "Unknown",
-                "company_overview": "Gemini quota exceeded.",
+                "company_overview": f"ERROR: {error_msg}",
                 "core_product_service": "N/A",
                 "target_customer": "N/A",
                 "b2b_qualified": False,
-                "sales_questions": [
-                    "How do you currently acquire new customers?",
-                    "What are your biggest business challenges?",
-                    "Do you use any CRM or sales tools?"
-                ],
-                "error": str(e)
+                "sales_questions": [],
+                "error": error_msg
             }
