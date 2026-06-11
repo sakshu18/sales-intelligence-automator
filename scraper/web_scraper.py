@@ -1,6 +1,5 @@
 import requests
 
-
 class WebScraper:
     def fetch_page(self, url: str) -> str:
         headers = {
@@ -16,3 +15,5 @@ class WebScraper:
         response.raise_for_status()
 
         return response.text
+    
+    

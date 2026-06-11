@@ -1,0 +1,35 @@
+Sales Intelligence Automator
+
+Overview:
+AI-powered lead research and qualification platform.
+
+Core Features:
+- Website scraping
+- Company profiling
+- ICP matching
+- Lead qualification
+- Sales brief generation
+- Buying signal detection
+- AI-generated sales questions
+
+Ideal Customers:
+- SMB companies
+- B2B service businesses
+- Construction companies
+- Roofing companies
+- Landscaping companies
+- Home services businesses
+
+Pain Points Solved:
+- Manual lead research
+- Poor lead qualification
+- Low sales productivity
+- Inconsistent prospecting
+- Lack of company insights
+
+Decision Makers:
+- CEO
+- Founder
+- Sales Director
+- Business Development Manager
+- Operations Manager

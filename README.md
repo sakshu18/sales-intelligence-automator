@@ -1,24 +1,93 @@
 # Sales Intelligence Automator
 
-Author: Sakshi Shah
+**Author:** Sakshi Shah
 
 ## Overview
 
-Sales Intelligence Automator is an AI-powered lead research tool that automates the process of gathering company information and generating sales-ready insights.
+Sales Intelligence Automator is an AI-powered lead intelligence platform that automates company research, ICP qualification, and sales brief generation.
 
-The application accepts company leads, collects information from company websites, analyzes the content using Google's Gemini LLM, and generates structured sales briefs that help sales representatives prepare for discovery calls.
+The application accepts company leads, scrapes company websites, extracts relevant business information, enriches analysis using a Retrieval-Augmented Generation (RAG) knowledge base, and generates structured sales intelligence reports using Google Gemini.
+
+The goal is to help sales teams quickly identify qualified prospects, understand business pain points, detect buying signals, and prepare personalized discovery conversations.
 
 ---
 
-## Features
+## Key Features
 
-* Upload company leads via CSV
-* Automatic website scraping
-* Content extraction and cleaning
-* AI-powered company analysis using Gemini
-* B2B qualification assessment
-* Automatic generation of sales discovery questions
-* Simple Streamlit web interface
+### Lead Research & Enrichment
+
+* Upload leads through CSV
+* Automatic company website processing
+* Website content extraction and cleaning
+* Structured company profiling
+
+### AI-Powered Sales Intelligence
+
+* Google Gemini-powered company analysis
+* B2B lead qualification
+* Industry classification
+* Company size estimation
+* Target customer identification
+
+### ICP (Ideal Customer Profile) Matching
+
+* Qualification scoring
+* Target role identification
+* Pain point detection
+* Buying signal detection
+* Trigger event identification
+* Tech stack signal detection
+* ICP match explanation
+
+### Retrieval-Augmented Generation (RAG)
+
+* Local knowledge base support
+* Semantic search using embeddings
+* Context retrieval using vector similarity
+* AI analysis enhanced with retrieved business knowledge
+
+### Sales Enablement
+
+* Personalized discovery questions
+* Structured sales briefs
+* Downloadable JSON output
+* Interactive Streamlit dashboard
+
+---
+
+## Architecture
+
+```text
+Lead CSV
+    │
+    ▼
+Website Scraper
+    │
+    ▼
+Content Extractor
+    │
+    ▼
+Content Cleaner
+    │
+    ▼
+RAG Retrieval Layer
+    │
+    ├── Knowledge Base
+    ├── Embeddings
+    └── Vector Search
+    │
+    ▼
+Gemini Analysis Engine
+    │
+    ▼
+ICP Qualification
+    │
+    ▼
+Sales Brief Generation
+    │
+    ▼
+Streamlit Dashboard
+```
 
 ---
 
@@ -28,8 +97,8 @@ The application accepts company leads, collects information from company website
 sales-intelligence-automator/
 
 ├── app.py
-├── requirements.txt
 ├── README.md
+├── requirements.txt
 ├── .env
 
 ├── ai/
@@ -37,13 +106,25 @@ sales-intelligence-automator/
 │   ├── gemini_client.py
 │   └── prompts.py
 
+├── config/
+│   └── default_icp.py
+
 ├── data/
 │   ├── leads.csv
 │   └── output.json
 
+├── knowledge/
+│   └── company_services.txt
+
 ├── models/
+│   ├── icp_profile.py
 │   ├── lead.py
 │   └── sales_brief.py
+
+├── rag/
+│   ├── embedder.py
+│   ├── retriever.py
+│   └── vector_store.py
 
 ├── scraper/
 │   ├── web_scraper.py
@@ -53,74 +134,133 @@ sales-intelligence-automator/
 ├── services/
 │   ├── company_resolver.py
 │   └── lead_processor.py
-
-├── utils/
-│   ├── helpers.py
-│   └── logger.py
 ```
 
 ---
 
 ## Technologies Used
 
+### Backend
+
 * Python 3.11+
-* Streamlit
-* Google Gemini 2.5 Flash
-* BeautifulSoup4
-* Requests
-* Pandas
 * Pydantic
-* Python-dotenv
+* Pandas
+* Requests
+* BeautifulSoup4
+
+### AI & RAG
+
+* Google Gemini 2.5 Flash
+* Sentence Transformers
+* all-MiniLM-L6-v2
+* Scikit-Learn
+* Retrieval-Augmented Generation (RAG)
+
+### Frontend
+
+* Streamlit
 
 ---
 
 ## Installation
 
-Clone the repository:
+### Clone Repository
 
 ```bash
-git clone <repository-url>
+git clone https://github.com/sakshu18/sales-intelligence-automator.git
+
 cd sales-intelligence-automator
 ```
 
-Install dependencies:
+### Install Dependencies
 
 ```bash
 pip install -r requirements.txt
 ```
 
-Create a .env file:
+### Configure Environment Variables
+
+Create a `.env` file:
 
 ```env
-GEMINI_API_KEY=your_api_key_here
+GEMINI_API_KEY=your_gemini_api_key
 ```
 
 ---
 
 ## Running the Application
 
-Start the Streamlit application:
-
 ```bash
 streamlit run app.py
 ```
 
-The application will open in your browser automatically.
+Open:
+
+```text
+http://localhost:8501
+```
 
 ---
 
-## How to Use
+## How It Works
 
-1. Upload a CSV file containing lead information.
-2. Click "Analyze Leads".
-3. The system:
+### Step 1: Upload Leads
 
-   * Scrapes company websites
-   * Extracts relevant content
-   * Cleans website noise
-   * Sends content to Gemini
-   * Generates a structured sales brief
-4. View the generated results directly in the UI.
+Upload a CSV file containing:
+
+```csv
+company_name,website_url,location
+Houston Roofing Online,https://www.houstonroofingonline.com,Houston
+```
+
+### Step 2: Website Research
+
+The system:
+
+* Downloads website content
+* Extracts visible text
+* Removes navigation and noise
+* Creates a clean company profile
+
+### Step 3: RAG Retrieval
+
+The application:
+
+* Loads business knowledge from the knowledge base
+* Converts text into embeddings
+* Performs semantic similarity search
+* Retrieves relevant context
+
+### Step 4: AI Analysis
+
+Gemini analyzes:
+
+* Company overview
+* Industry
+* Company size
+* Core services
+* Target customers
+* B2B qualification
+
+### Step 5: ICP Qualification
+
+The system evaluates:
+
+* Decision makers
+* Pain points
+* Buying signals
+* Trigger events
+* Technology indicators
+* Qualification score
+
+### Step 6: Sales Brief Generation
+
+Produces:
+
+* Structured sales intelligence
+* Discovery questions
+* Qualification reasoning
+* Actionable sales insights
 
 ---
 
@@ -129,41 +269,67 @@ The application will open in your browser automatically.
 ```json
 {
   "company_name": "Houston Roofing Online",
-  "company_overview": "Provides roofing services for residential and commercial properties.",
-  "core_product_service": "Roof installation and repair",
-  "target_customer": "Homeowners and businesses",
+  "industry": "Construction",
+  "company_size": "SMB",
+  "core_product_service": "Residential and Commercial Roofing",
+  "target_customer": "Homeowners and Property Managers",
   "b2b_qualified": true,
+
+  "icp": {
+    "qualification_score": 88,
+    "target_roles": [
+      "Owner",
+      "Operations Manager"
+    ],
+    "pain_points": [
+      "Lead generation",
+      "Operational efficiency"
+    ],
+    "buying_signals": [
+      "Online quote requests",
+      "Growth initiatives"
+    ]
+  },
+
   "sales_questions": [
-    "How do you currently acquire new customers?",
-    "Do you use a CRM system?",
-    "What are your biggest sales challenges?"
+    "How do you currently generate new leads?",
+    "What tools do you use to manage customer relationships?",
+    "What operational challenges are limiting growth?"
   ]
 }
 ```
 
 ---
 
-## Design Notes
+## Why RAG?
 
-The application follows a modular architecture where each component has a single responsibility. The scraping layer retrieves and extracts website content, the AI layer handles prompt management and LLM interaction, and the services layer orchestrates the overall workflow. This separation improves maintainability and allows individual components to be replaced independently.
+Traditional prompting relies only on website content.
 
-Google Gemini 2.5 Flash was selected because it offers strong reasoning capabilities, fast response times, and a free development tier. Pydantic models are used to validate AI-generated responses and ensure that outputs remain structured and reliable.
+This project enhances AI analysis by retrieving relevant business knowledge before sending data to Gemini.
 
-The system handles imperfect inputs by separating lead normalization from processing logic. Website content is cleaned before being sent to the LLM to reduce noise from navigation menus, cookie banners, and repetitive marketing content. If additional time were available, future improvements would include multi-page crawling, asynchronous processing, CRM integration, and enhanced lead scoring capabilities.
+Benefits:
+
+* More consistent qualification
+* Better ICP matching
+* Improved sales recommendations
+* Reduced hallucinations
+* Domain-specific context injection
 
 ---
 
 ## Future Improvements
 
 * Multi-page website crawling
-* Parallel processing for faster execution
-* CRM integration (HubSpot/Salesforce)
-* Advanced lead scoring
-* Export to Excel/PDF
-* Historical lead analysis
+* Async processing
+* CRM integrations (HubSpot, Salesforce)
+* Vector database support (FAISS, ChromaDB)
+* PDF and Excel exports
+* Lead scoring dashboard
+* Historical lead analytics
+* Multi-tenant knowledge bases
 
 ---
 
 ## License
 
-This project was developed as part of a technical assessment assignment.
+This project was developed as part of a technical assessment assignment and is intended for educational and demonstration purposes.

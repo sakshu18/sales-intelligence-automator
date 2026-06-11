@@ -17,10 +17,12 @@ class LeadProcessor:
         self.analyzer = LeadAnalyzer()
         self.resolver = CompanyResolver()
 
-    def process(self,
-                company_name: str = None,
-                website_url: str = None,
-                location: str = None):
+    def process(
+        self,
+        company_name: str = None,
+        website_url: str = None,
+        location: str = None
+    ):
 
         if pd.isna(website_url) or not website_url:
             return {
@@ -30,23 +32,42 @@ class LeadProcessor:
             }
 
         try:
-            html = self.scraper.fetch_page(website_url)
 
-            content = self.extractor.extract_text(html)
+            html = self.scraper.fetch_page(
+                website_url
+            )
 
-            cleaned_content = self.cleaner.clean(content)
+            content = self.extractor.extract_text(
+                html
+            )
+
+            cleaned_content = self.cleaner.clean(
+                content
+            )
 
             sales_brief = self.analyzer.analyze(
                 cleaned_content,
                 company_name
             )
 
-            if hasattr(sales_brief, "model_dump"):
-                return sales_brief.model_dump()
+            if hasattr(
+                sales_brief,
+                "model_dump"
+            ):
 
-            return sales_brief
+                result = sales_brief.model_dump()
+
+            else:
+
+                result = sales_brief
+
+            # Add URL for UI display
+            result["website_url"] = website_url
+
+            return result
 
         except Exception as e:
+
             return {
                 "company_name": company_name,
                 "website_url": website_url,

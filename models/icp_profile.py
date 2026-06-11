@@ -1,6 +1,5 @@
 from pydantic import BaseModel, Field
 from typing import List
-from models.icp_profile import ICPProfile
 
 
 class ICPProfile(BaseModel):
@@ -30,36 +29,3 @@ class ICPProfile(BaseModel):
     icp_match_reason: str = (
         "No ICP analysis available."
     )
-
-
-class SalesBrief(BaseModel):
-
-    company_name: str = ""
-
-    company_overview: str = (
-        "Not available"
-    )
-
-    industry: str = "Unknown"
-
-    company_size: str = "Unknown"
-
-    core_product_service: str = (
-        "Not available"
-    )
-
-    target_customer: str = (
-        "Not available"
-    )
-
-    icp: ICPProfile = Field(
-        default_factory=ICPProfile
-    )
-
-    b2b_qualified: bool = False
-
-    sales_questions: List[str] = Field(
-        default_factory=list
-    )
-
-    rag_context: str = ""

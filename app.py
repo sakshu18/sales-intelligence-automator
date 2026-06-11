@@ -108,15 +108,26 @@ if uploaded_file:
                     st.error(result["error"])
 
                 else:
+
                     st.write(
                         "**Company Overview:**",
                         result.get("company_overview")
                     )
-                    
+
                     if result.get("website_url"):
                         st.markdown(
                             f"**Website:** {result.get('website_url')}"
                         )
+
+                    st.write(
+                        "**Industry:**",
+                        result.get("industry")
+                    )
+
+                    st.write(
+                        "**Company Size:**",
+                        result.get("company_size")
+                    )
 
                     st.write(
                         "**Core Product/Service:**",
@@ -128,14 +139,116 @@ if uploaded_file:
                         result.get("target_customer")
                     )
 
-                    if str(result.get("b2b_qualified")).lower() == "yes":
+                    if result.get("b2b_qualified") is True:
                         st.success("✅ Qualified B2B Lead")
                     else:
                         st.error("❌ Not a B2B Lead")
 
-                    st.write("**Sales Questions:**")
+                    icp = result.get("icp", {})
+
+                    st.markdown("---")
+                    st.subheader("🎯 ICP Analysis")
+
+                    score = icp.get(
+                        "qualification_score",
+                        0
+                    )
+
+                    st.metric(
+                        "Qualification Score",
+                        score
+                    )
+
+                    match_reason = icp.get(
+                        "icp_match_reason",
+                        ""
+                    )
+
+                    if match_reason:
+                        st.info(
+                            f"ICP Match Reason: {match_reason}"
+                        )
+
+                    rag_context = result.get(
+                        "rag_context",
+                        ""
+                    )
+
+                    if rag_context:
+
+                        st.markdown("---")
+                        st.subheader(
+                            "📚 RAG Context Used"
+                        )
+
+                        st.info(rag_context)
+
+                    col1, col2 = st.columns(2)
+
+                    with col1:
+
+                        st.markdown(
+                            "### 👥 Target Roles"
+                        )
+
+                        for role in icp.get(
+                            "target_roles",
+                            []
+                        ):
+                            st.write(f"• {role}")
+
+                        st.markdown(
+                            "### ⚠️ Pain Points"
+                        )
+
+                        for pain in icp.get(
+                            "pain_points",
+                            []
+                        ):
+                            st.write(f"• {pain}")
+
+                        st.markdown(
+                            "### 🚀 Trigger Events"
+                        )
+
+                        for event in icp.get(
+                            "trigger_events",
+                            []
+                        ):
+                            st.write(f"• {event}")
+
+                    with col2:
+
+                        st.markdown(
+                            "### 📈 Buying Signals"
+                        )
+
+                        for signal in icp.get(
+                            "buying_signals",
+                            []
+                        ):
+                            st.write(f"• {signal}")
+
+                        st.markdown(
+                            "### 💻 Tech Stack Signals"
+                        )
+
+                        for tech in icp.get(
+                            "tech_stack_signals",
+                            []
+                        ):
+                            st.write(f"• {tech}")
+
+                    st.markdown("---")
+
+                    st.write(
+                        "**Sales Questions:**"
+                    )
 
                     for question in result.get(
-                        "sales_questions", []
+                        "sales_questions",
+                        []
                     ):
-                        st.write(f"• {question}")
+                        st.write(
+                            f"• {question}"
+                        )
