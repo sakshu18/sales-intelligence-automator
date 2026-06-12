@@ -11,3 +11,7 @@ venv/
 data/output.json
 
 screenshots/
+
+# IDE
+.vscode/
+.idea/

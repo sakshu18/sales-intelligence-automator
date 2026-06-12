@@ -77,8 +77,55 @@ Moderate ICP Match
 
 Below 60:
 Weak ICP Match
-- Poor ICP alignment
-- Few or no buying signals
+- Clear evidence company is outside target ICP
+- Consumer-only business
+- Retail store
+- Restaurant
+- E-commerce brand
+- Non-service business
+
+Do NOT use missing data as a reason for scoring below 60.
+
+QUALIFICATION LOGIC
+
+A company should be considered B2B qualified if ANY of the following are true:
+
+- Operates in Roofing
+- Landscaping
+- HVAC
+- Plumbing
+- Construction
+- Tree Care
+- Locksmith
+- Moving Services
+- Home Services
+- Property Maintenance
+- Commercial Services
+
+- Serves businesses OR commercial customers
+- Appears to be an SMB service business
+- Matches the target ICP from the knowledge base
+
+Qualification Threshold:
+
+- qualification_score >= 75 → b2b_qualified = true
+- qualification_score < 75 → b2b_qualified = false
+
+Ensure the qualification score and b2b_qualified field are logically consistent.
+
+IMPORTANT:
+
+Do NOT reject a company solely because:
+- Website scraping returned limited content
+- Company information is incomplete
+- Tech stack signals are unavailable
+- Buying signals are limited
+
+Use company name, website URL, industry keywords, and available context to infer qualification.
+
+If the company clearly belongs to one of the target industries, assign a qualification score of at least 75.
+
+Only assign a score below 60 when there is strong evidence that the company is outside the ICP.
 
 RULES
 

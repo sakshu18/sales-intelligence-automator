@@ -30,7 +30,7 @@ class LeadAnalyzer:
         )
 
         prompt = SALES_BRIEF_PROMPT.format(
-            content=company_content[:10000],
+            content=company_content[:3000],
             icp=json.dumps(DEFAULT_ICP, indent=2),
             rag_context=rag_context
         )

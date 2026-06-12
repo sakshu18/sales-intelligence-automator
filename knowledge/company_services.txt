@@ -13,12 +13,34 @@ Core Features:
 - AI-generated sales questions
 
 Ideal Customers:
-- SMB companies
-- B2B service businesses
-- Construction companies
+
+Primary ICP:
 - Roofing companies
 - Landscaping companies
-- Home services businesses
+- HVAC companies
+- Plumbing companies
+- Tree service companies
+- Locksmith companies
+- Moving companies
+- Construction companies
+- Home improvement companies
+- Home service businesses
+
+Secondary ICP:
+- Cleaning companies
+- Pest control companies
+- Painting companies
+- Flooring companies
+- Electrical contractors
+- Property maintenance companies
+- Catering companies serving businesses
+
+Company Characteristics:
+- 5-500 employees
+- Local or regional service providers
+- Actively seeking new customers
+- B2B or mixed B2B/B2C
+- Service-based business
 
 Pain Points Solved:
 - Manual lead research
@@ -33,3 +55,21 @@ Decision Makers:
 - Sales Director
 - Business Development Manager
 - Operations Manager
+
+Qualification Rules:
+
+Automatically qualify if company belongs to:
+- Roofing
+- Landscaping
+- HVAC
+- Plumbing
+- Tree Care
+- Locksmith
+- Construction
+- Moving Services
+
+Even if website information is limited.
+
+Do not reject solely because website scraping failed.
+
+Use company name and industry signals when website content is unavailable.

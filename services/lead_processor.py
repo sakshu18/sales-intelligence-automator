@@ -1,7 +1,4 @@
 from scraper.web_scraper import WebScraper
-from scraper.content_extractor import ContentExtractor
-from scraper.content_cleaner import ContentCleaner
-
 from services.company_resolver import CompanyResolver
 from ai.analyzer import LeadAnalyzer
 
@@ -12,8 +9,6 @@ class LeadProcessor:
 
     def __init__(self):
         self.scraper = WebScraper()
-        self.extractor = ContentExtractor()
-        self.cleaner = ContentCleaner()
         self.analyzer = LeadAnalyzer()
         self.resolver = CompanyResolver()
 
@@ -23,47 +18,41 @@ class LeadProcessor:
         website_url: str = None,
         location: str = None
     ):
-
+        to_process = website_url
         if pd.isna(website_url) or not website_url:
-            return {
-                "company_name": company_name,
-                "status": "Skipped",
-                "reason": "No website URL provided"
-            }
+            to_process = company_name
 
         try:
 
-            html = self.scraper.fetch_page(
-                website_url
+            processed_content = self.scraper.scrape(
+                to_process
             )
+            if processed_content['status'] == 'success':
+                sales_brief = self.analyzer.analyze(
+                    processed_content['content'],
+                    company_name
+                )
 
-            content = self.extractor.extract_text(
-                html
-            )
+                if hasattr(
+                    sales_brief,
+                    "model_dump"
+                ):
 
-            cleaned_content = self.cleaner.clean(
-                content
-            )
+                    result = sales_brief.model_dump()
 
-            sales_brief = self.analyzer.analyze(
-                cleaned_content,
-                company_name
-            )
+                else:
 
-            if hasattr(
-                sales_brief,
-                "model_dump"
-            ):
+                    result = sales_brief
 
-                result = sales_brief.model_dump()
-
+                # Add URL for UI display
+                result["website_url"] = processed_content['url']
             else:
-
-                result = sales_brief
-
-            # Add URL for UI display
-            result["website_url"] = website_url
-
+                result = {
+                    "company_name": company_name,
+                    "website_url": website_url,
+                    "status": processed_content['status'],
+                    "error": processed_content['error']
+                }
             return result
 
         except Exception as e:
