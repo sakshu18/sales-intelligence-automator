@@ -114,39 +114,59 @@ The platform is designed to accelerate prospect research and improve discovery c
 
 ---
 
-# Project Structure
+## Project Structure
 
 ```text
 sales-intelligence-automator/
 
 ├── app.py
-├── requirements.txt
 ├── README.md
+├── requirements.txt
 ├── .env
+├── .gitignore
+├── test_gemini.py
 
 ├── ai/
-│   ├── gemini_client.py
 │   ├── analyzer.py
+│   ├── gemini_client.py
 │   └── prompts.py
+
+├── config/
+│   └── default_icp.py
 
 ├── data/
 │   ├── leads.csv
 │   └── output.json
 
+├── knowledge/
+│   └── company_services.txt
+
 ├── models/
 │   ├── lead.py
-│   └── sales_brief.py
+│   ├── sales_brief.py
+│   └── icp_profile.py
+
+├── rag/
+│   ├── embedder.py
+│   ├── retriever.py
+│   └── vector_store.py
 
 ├── scraper/
 │   ├── web_scraper.py
-│   ├── url_resolver.py
-│   ├── fetcher.py
 │   ├── content_extractor.py
 │   └── content_cleaner.py
 
 ├── services/
 │   ├── company_resolver.py
+│   ├── icp_builder.py
 │   └── lead_processor.py
+
+├── utils/
+│   ├── helpers.py
+│   └── logger.py
+
+└── screenshots/
+    └── dashboard.png
 ```
 
 ---
