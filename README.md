@@ -63,53 +63,37 @@ The platform is designed to accelerate prospect research and improve discovery c
 
 ---
 
-# System Architecture
+## System Architecture
 
-```text
-                    ┌─────────────────────┐
-                    │     Lead CSV        │
-                    └──────────┬──────────┘
-                               │
-                               ▼
-                    ┌─────────────────────┐
-                    │ Website Discovery   │
-                    │ & URL Resolution    │
-                    └──────────┬──────────┘
-                               │
-                               ▼
-                    ┌─────────────────────┐
-                    │ Website Scraper     │
-                    └──────────┬──────────┘
-                               │
-                               ▼
-                    ┌─────────────────────┐
-                    │ Content Extractor   │
-                    └──────────┬──────────┘
-                               │
-                               ▼
-                    ┌─────────────────────┐
-                    │ Content Cleaner     │
-                    └──────────┬──────────┘
-                               │
-                               ▼
-                    ┌─────────────────────┐
-                    │ Gemini Analysis     │
-                    └──────────┬──────────┘
-                               │
-                               ▼
-                    ┌─────────────────────┐
-                    │ Lead Qualification  │
-                    └──────────┬──────────┘
-                               │
-                               ▼
-                    ┌─────────────────────┐
-                    │ Sales Brief Engine  │
-                    └──────────┬──────────┘
-                               │
-                               ▼
-                    ┌─────────────────────┐
-                    │ Streamlit Dashboard │
-                    └─────────────────────┘
+```mermaid
+flowchart TD
+
+A[Lead CSV Upload]
+--> B[Company Website Discovery]
+
+B --> C[URL Resolution]
+
+C --> D[Website Fetcher]
+
+D --> E[Content Extraction]
+
+E --> F[Content Cleaning]
+
+F --> G[RAG Retrieval Layer]
+
+G --> H[Knowledge Base]
+
+H --> I[Gemini Analysis]
+
+I --> J[ICP Builder]
+
+J --> K[Lead Qualification]
+
+K --> L[Sales Brief Generation]
+
+L --> M[JSON Output]
+
+L --> N[Streamlit Dashboard]
 ```
 
 ---
@@ -152,9 +136,12 @@ sales-intelligence-automator/
 │   └── vector_store.py
 
 ├── scraper/
-│   ├── web_scraper.py
-│   ├── content_extractor.py
-│   └── content_cleaner.py
+│   ├── cleaner.py
+│   ├── config.py
+│   ├── extractor.py
+│   ├── fetcher.py
+│   ├── url_resolver.py
+│   └── web_scraper.py
 
 ├── services/
 │   ├── company_resolver.py
@@ -166,7 +153,7 @@ sales-intelligence-automator/
 │   └── logger.py
 
 └── screenshots/
-    └── dashboard.png
+    └── SIA.png
 ```
 
 ---
